@@ -1,70 +1,94 @@
 ---
-import { ArrowRight } from 'lucide-react';
+import { CalendarRange, PackageSearch, FileText, Wallet } from 'lucide-react';
 
-const NEWS_DATA = [
-  { date: '2026.03.15', category: '重要', title: '新入生歓迎会のスケジュールについて' },
-  { date: '2026.03.10', category: 'お知らせ', title: '施設予約システムのメンテナンスのお知らせ' },
-  { date: '2026.03.05', category: '活動報告', title: '令和7年度 春季総会のご報告' },
-  { date: '2026.02.28', category: '募集', title: '学友会 新規スタッフ募集のお知らせ' },
+const BENTO_ITEMS = [
+  {
+    title: '施設予約',
+    description: '会議室や活動場所の予約',
+    icon: CalendarRange,
+    colSpan: 'md:col-span-2',
+    rowSpan: 'md:row-span-2',
+    bgClass: 'bg-zinc-900',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80',
+  },
+  {
+    title: '物品貸出',
+    description: 'マイク、テント等の備品',
+    icon: PackageSearch,
+    colSpan: 'md:col-span-1',
+    rowSpan: 'md:row-span-1',
+    bgClass: 'bg-zinc-800',
+  },
+  {
+    title: '申請書類',
+    description: '各種手続きのフォーマット',
+    icon: FileText,
+    colSpan: 'md:col-span-1',
+    rowSpan: 'md:row-span-1',
+    bgClass: 'bg-zinc-800',
+  },
+  {
+    title: '予算関連',
+    description: 'サークル予算の申請・報告',
+    icon: Wallet,
+    colSpan: 'md:col-span-2',
+    rowSpan: 'md:row-span-1',
+    bgClass: 'bg-zinc-900',
+  },
 ];
 ---
 
-<section id="news" class="py-24 md:py-32 bg-white text-zinc-900">
+<section id="service" class="py-24 md:py-32 bg-zinc-950 text-white">
   <div class="container mx-auto px-6 md:px-12">
-    <div class="mb-16 md:mb-24 flex flex-col items-center scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out">
+    <div class="mb-16 md:mb-24 flex flex-col items-center md:items-start scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out">
       <h2 class="text-3xl md:text-5xl font-[Noto_Serif_JP] tracking-widest mb-4">
-        News
+        Service
       </h2>
-      <p class="text-zinc-500 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base transition-delay-100">
-        お知らせ
+      <p class="text-zinc-400 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base transition-all delay-100">
+        学友会が提供する各種サービス
       </p>
     </div>
 
-    <div class="max-w-4xl mx-auto border-t border-zinc-200">
-      {NEWS_DATA.map((item, idx) => (
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px]">
+      {BENTO_ITEMS.map((item, index) => (
         <a
-          href="#"
-          class="scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out group flex flex-col md:flex-row md:items-center py-6 border-b border-zinc-200 hover:bg-zinc-50 px-4"
-          style={`transition-delay: ${idx * 100}ms;`}
+          href={`#${item.title}`}
+          class={`scroll-reveal opacity-0 scale-95 transition-all duration-700 ease-out relative overflow-hidden group rounded-2xl ${item.colSpan} ${item.rowSpan} ${item.bgClass} flex flex-col justify-end p-8 border border-white/5`}
+          style={`transition-delay: ${index * 100}ms;`}
         >
-          <div class="flex items-center gap-6 md:w-1/3 mb-4 md:mb-0">
-            <span class="font-['Noto_Sans_JP'] text-zinc-500 text-sm tracking-widest">{item.date}</span>
-            <span class="font-[Noto_Serif_JP] text-xs px-3 py-1 border border-zinc-300 rounded-full text-zinc-600 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-300">
-              {item.category}
-            </span>
-          </div>
-          <div class="md:w-2/3 flex justify-between items-center">
-            <h3 class="font-[Noto_Serif_JP] text-base md:text-lg tracking-wider group-hover:translate-x-2 transition-transform duration-500">
-              {item.title}
-            </h3>
-            <ArrowRight size={16} className="text-zinc-400 group-hover:text-zinc-900 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+          {item.image && (
+            <div class="absolute inset-0 w-full h-full">
+              <img src={item.image} alt={item.title} class="w-full h-full object-cover opacity-40 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
+            </div>
+          )}
+          
+          <div class="relative z-10 flex flex-col h-full justify-between">
+            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white mb-6 group-hover:bg-white group-hover:text-black transition-colors duration-500">
+              <item.icon size={20} strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-[Noto_Serif_JP] tracking-wider mb-2 group-hover:text-white transition-colors">{item.title}</h3>
+              <p class="text-sm text-zinc-400 font-['Noto_Sans_JP'] tracking-wide">{item.description}</p>
+            </div>
           </div>
         </a>
       ))}
-    </div>
-
-    <div class="mt-16 text-center scroll-reveal opacity-0 transition-all duration-700 delay-300">
-      <a
-        href="#"
-        class="inline-flex items-center gap-4 text-sm font-['Noto_Serif_JP'] tracking-widest border-b border-zinc-900 pb-1 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
-      >
-        View All
-        <ArrowRight size={14} />
-      </a>
     </div>
   </div>
 </section>
 
 <script>
-  const newsObserver = new IntersectionObserver((entries) => {
+  // スクロール検知によるフェードインアニメーション（軽量Vanilla JS）
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.remove('opacity-0', 'translate-y-4');
-        entry.target.classList.add('opacity-100', 'translate-y-0');
-        newsObserver.unobserve(entry.target);
+        entry.target.classList.remove('opacity-0', 'translate-y-4', 'scale-95');
+        entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('#news .scroll-reveal').forEach(el => newsObserver.observe(el));
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 </script>
