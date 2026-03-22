@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-4">
           {/* ⭕️ src を直接 "/logo.png" に変更 */}
           <img
-            src="/logo.png"
+            src="/Student-Council/logo.png"
             alt="学友会ロゴ"
             className="h-10 md:h-12 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
           />

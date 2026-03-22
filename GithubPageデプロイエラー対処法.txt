@@ -1,0 +1,2 @@
+.github/workflows/deploy.yml
+のbranchesをmasterからmainに

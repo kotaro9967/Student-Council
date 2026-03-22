@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 const IMAGES = [
-  "/campus1.jpg",
-  "/campus2.jpg",
-  "/campus3.jpg",
-  "/campus4.jpg",
-  "/campus5.jpg",
+  "/Student-Council/campus1.jpg",
+  "/Student-Council/campus2.jpg",
+  "/Student-Council/campus3.jpg",
+  "/Student-Council/campus4.jpg",
+  "/Student-Council/campus5.jpg",
 ];
 
 export const Hero: React.FC = () => {
