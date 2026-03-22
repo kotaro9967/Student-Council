@@ -1,0 +1,69 @@
+---
+import { ArrowUpRight } from 'lucide-react';
+
+const FOOTER_LINKS = [
+  { name: 'FAQ', href: '#faq' },
+  { name: 'About', href: '#about' },
+  { name: 'お問い合わせ', href: '#contact' },
+  { name: '学友会規約', href: '#rules' },
+];
+---
+
+<footer class="bg-zinc-950 text-white pt-24 pb-8 md:pt-32 md:pb-12 border-t border-zinc-800">
+  <div class="container mx-auto px-6 md:px-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-24">
+      <div class="flex flex-col">
+        <div class="mb-8 scroll-reveal opacity-0 transition-all duration-1000 ease-out">
+          <h2 class="text-2xl md:text-3xl font-[Noto_Serif_JP] tracking-widest font-light mb-2">
+            東京理科大学 学友会
+          </h2>
+          <p class="text-zinc-500 text-sm tracking-[0.2em] uppercase">
+            Student Council of TUS
+          </p>
+        </div>
+        <p class="text-zinc-400 font-['Noto_Sans_JP'] text-sm leading-relaxed tracking-wider max-w-sm scroll-reveal opacity-0 transition-all duration-1000 delay-200">
+          日々の学生生活を、より豊かに。<br />
+          学生のための組織として、様々な活動を支援しています。
+        </p>
+      </div>
+
+      <div class="flex flex-col md:items-end justify-between">
+        <ul class="flex flex-col space-y-6 text-lg font-[Noto_Serif_JP] tracking-widest">
+          {FOOTER_LINKS.map((link, idx) => (
+            <li class="scroll-reveal opacity-0 translate-y-2 transition-all duration-500 ease-out" style={`transition-delay: ${idx * 100}ms;`}>
+              <a
+                href={link.href}
+                class="group inline-flex items-center gap-4 hover:text-zinc-400 transition-colors"
+              >
+                {link.name}
+                <ArrowUpRight size={16} className="text-zinc-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-between items-center border-t border-zinc-800 pt-8 mt-16 text-zinc-500 text-xs font-['Noto_Sans_JP'] tracking-widest">
+      <p>&copy; {new Date().getFullYear()} Tokyo University of Science Student Council. All Rights Reserved.</p>
+      <div class="flex space-x-6 mt-4 md:mt-0">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-2');
+        entry.target.classList.add('opacity-100', 'translate-y-0');
+        footerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('footer .scroll-reveal').forEach(el => footerObserver.observe(el));
+</script>

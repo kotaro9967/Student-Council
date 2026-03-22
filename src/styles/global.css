@@ -1,0 +1,84 @@
+/* src/styles/global.css */
+
+/* 1. フォントのインポート (fonts.css相当) */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap");
+
+/* 2. Tailwindの基本設定 (tailwind.css相当) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. テーマ変数とベーススタイル (theme.css相当) */
+@layer base {
+  :root {
+    --font-size: 16px;
+    --background: #ffffff;
+    --foreground: oklch(0.145 0 0);
+    --card: #ffffff;
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: #030213;
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.95 0.0058 264.53);
+    --secondary-foreground: #030213;
+    --muted: #ececf0;
+    --muted-foreground: #717182;
+    --accent: #e9ebef;
+    --accent-foreground: #030213;
+    --destructive: #d4183d;
+    --destructive-foreground: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --input: transparent;
+    --input-background: #f3f3f5;
+    --switch-background: #cbced4;
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+    --ring: oklch(0.708 0 0);
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.145 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --border: oklch(0.269 0 0);
+    --ring: oklch(0.439 0 0);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Noto Sans JP", sans-serif;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  /* フォントの適用ルール */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Noto Serif JP", serif;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  p,
+  a,
+  span,
+  label,
+  button,
+  input {
+    font-family: "Noto Sans JP", sans-serif;
+  }
+}
