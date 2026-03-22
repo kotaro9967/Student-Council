@@ -1,15 +1,11 @@
 ---
-// Reactコンポーネント (.tsx)
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
 import { Circles } from '../components/Circles';
-
-// Astroコンポーネント (.astro)
 import QuickAccess from '../components/QuickAccess.astro';
 import News from '../components/News.astro';
 import Footer from '../components/Footer.astro';
 
-// 🌟 ここが最重要！Tailwindを読み込む命令 🌟
 import '../styles/global.css';
 ---
 
@@ -19,7 +15,7 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>東京理科大学 学友会</title>
   </head>
-  <body class="bg-zinc-50 font-['Noto_Sans_JP']">
+  <body class="bg-zinc-50 font-['Noto_Sans_JP'] overflow-x-hidden">
     <Header client:load />
     
     <main>
@@ -30,5 +26,17 @@ import '../styles/global.css';
     </main>
 
     <Footer />
+
+    {/* ⭕️ GSAP ScrollTriggerの登録用スクリプト */}
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      // ScrollTriggerプラグインをGSAPに登録
+      gsap.registerPlugin(ScrollTrigger);
+
+      // (オプション) GSAPのグローバル設定（例：スクロールの滑らかさ）
+      // ScrollTrigger.config({ limitCallbacks: true });
+    </script>
   </body>
 </html>

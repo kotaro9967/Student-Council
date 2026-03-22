@@ -9,23 +9,22 @@ const NEWS_DATA = [
 ];
 ---
 
-<section id="news" class="py-24 md:py-32 bg-white text-zinc-900">
+<section id="news" class="py-24 md:py-32 bg-white text-zinc-900 overflow-hidden">
   <div class="container mx-auto px-6 md:px-12">
-    <div class="mb-16 md:mb-24 flex flex-col items-center scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out">
+    <div class="mb-16 md:mb-24 flex flex-col items-center news-title scroll-reveal opacity-0">
       <h2 class="text-3xl md:text-5xl font-[Noto_Serif_JP] tracking-widest mb-4">
         News
       </h2>
-      <p class="text-zinc-500 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base transition-delay-100">
+      <p class="text-zinc-500 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base">
         お知らせ
       </p>
     </div>
 
-    <div class="max-w-4xl mx-auto border-t border-zinc-200">
-      {NEWS_DATA.map((item, idx) => (
+    <div class="max-w-4xl mx-auto border-t border-zinc-200 news-list">
+      {NEWS_DATA.map((item) => (
         <a
           href="#"
-          class="scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out group flex flex-col md:flex-row md:items-center py-6 border-b border-zinc-200 hover:bg-zinc-50 px-4"
-          style={`transition-delay: ${idx * 100}ms;`}
+          class="scroll-reveal opacity-0 group flex flex-col md:flex-row md:items-center py-6 border-b border-zinc-200 hover:bg-zinc-50 px-4"
         >
           <div class="flex items-center gap-6 md:w-1/3 mb-4 md:mb-0">
             <span class="font-['Noto_Sans_JP'] text-zinc-500 text-sm tracking-widest">{item.date}</span>
@@ -43,28 +42,36 @@ const NEWS_DATA = [
       ))}
     </div>
 
-    <div class="mt-16 text-center scroll-reveal opacity-0 transition-all duration-700 delay-300">
+    <div class="mt-16 text-center news-view-all scroll-reveal opacity-0">
       <a
         href="#"
         class="inline-flex items-center gap-4 text-sm font-['Noto_Serif_JP'] tracking-widest border-b border-zinc-900 pb-1 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
       >
         View All
-        <ArrowRight size={14} />
+        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
       </a>
     </div>
   </div>
 </section>
 
 <script>
-  const newsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('opacity-0', 'translate-y-4');
-        entry.target.classList.add('opacity-100', 'translate-y-0');
-        newsObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-  document.querySelectorAll('#news .scroll-reveal').forEach(el => newsObserver.observe(el));
+  const ctx = gsap.context(() => {
+    gsap.to(".news-title", {
+      opacity: 1, y: 0, duration: 1, ease: "power2.out",
+      scrollTrigger: { trigger: ".news-title", start: "top 80%", toggleActions: "play none none reverse" }
+    });
+    gsap.to(".news-list .scroll-reveal", {
+      opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out",
+      scrollTrigger: { trigger: ".news-list", start: "top 70%", toggleActions: "play none none reverse" }
+    });
+    gsap.to(".news-view-all", {
+      opacity: 1, duration: 1, delay: 0.5, ease: "power2.out",
+      scrollTrigger: { trigger: ".news-view-all", start: "top 90%", toggleActions: "play none none reverse" }
+    });
+  });
+
+  document.addEventListener('astro:before-swap', () => ctx.revert());
 </script>

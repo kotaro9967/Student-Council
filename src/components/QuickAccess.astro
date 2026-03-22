@@ -9,6 +9,7 @@ const BENTO_ITEMS = [
     colSpan: 'md:col-span-2',
     rowSpan: 'md:row-span-2',
     bgClass: 'bg-zinc-900',
+    // 施設予約の画像
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80',
   },
   {
@@ -18,6 +19,8 @@ const BENTO_ITEMS = [
     colSpan: 'md:col-span-1',
     rowSpan: 'md:row-span-1',
     bgClass: 'bg-zinc-800',
+    // ⭕️ 物品貸出の画像を追加
+    image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&q=80',
   },
   {
     title: '申請書類',
@@ -26,6 +29,8 @@ const BENTO_ITEMS = [
     colSpan: 'md:col-span-1',
     rowSpan: 'md:row-span-1',
     bgClass: 'bg-zinc-800',
+    // ⭕️ 申請書類の画像を追加
+    image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&q=80',
   },
   {
     title: '予算関連',
@@ -34,17 +39,19 @@ const BENTO_ITEMS = [
     colSpan: 'md:col-span-2',
     rowSpan: 'md:row-span-1',
     bgClass: 'bg-zinc-900',
+    // ⭕️ 予算関連の画像を追加
+    image: 'https://images.unsplash.com/photo-1554224155-1696413565d3?auto=format&fit=crop&q=80',
   },
 ];
 ---
 
-<section id="service" class="py-24 md:py-32 bg-zinc-950 text-white">
+<section id="service" class="py-24 md:py-32 bg-zinc-950 text-white overflow-hidden">
   <div class="container mx-auto px-6 md:px-12">
-    <div class="mb-16 md:mb-24 flex flex-col items-center md:items-start scroll-reveal opacity-0 translate-y-4 transition-all duration-700 ease-out">
+    <div class="mb-16 md:mb-24 flex flex-col items-center md:items-start service-title scroll-reveal opacity-0">
       <h2 class="text-3xl md:text-5xl font-[Noto_Serif_JP] tracking-widest mb-4">
         Service
       </h2>
-      <p class="text-zinc-400 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base transition-all delay-100">
+      <p class="text-zinc-400 font-['Noto_Serif_JP'] tracking-wider text-sm md:text-base">
         学友会が提供する各種サービス
       </p>
     </div>
@@ -53,19 +60,17 @@ const BENTO_ITEMS = [
       {BENTO_ITEMS.map((item, index) => (
         <a
           href={`#${item.title}`}
-          class={`scroll-reveal opacity-0 scale-95 transition-all duration-700 ease-out relative overflow-hidden group rounded-2xl ${item.colSpan} ${item.rowSpan} ${item.bgClass} flex flex-col justify-end p-8 border border-white/5`}
-          style={`transition-delay: ${index * 100}ms;`}
+          class={`scroll-reveal opacity-0 relative overflow-hidden group rounded-2xl ${item.colSpan} ${item.rowSpan} ${item.bgClass} flex flex-col justify-end p-8 border border-white/5`}
         >
-          {item.image && (
-            <div class="absolute inset-0 w-full h-full">
-              <img src={item.image} alt={item.title} class="w-full h-full object-cover opacity-40 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
-            </div>
-          )}
+          {/* ⭕️ すべてのアイテムに背景画像を設定 */}
+          <div class="absolute inset-0 w-full h-full">
+            <img src={item.image} alt={item.title} class="w-full h-full object-cover opacity-30 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-zinc-950/30" />
+          </div>
           
           <div class="relative z-10 flex flex-col h-full justify-between">
             <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white mb-6 group-hover:bg-white group-hover:text-black transition-colors duration-500">
-              <item.icon size={20} strokeWidth={1.5} />
+              <item.icon size={20} className="strokeWidth={1.5}" />
             </div>
             <div>
               <h3 class="text-xl md:text-2xl font-[Noto_Serif_JP] tracking-wider mb-2 group-hover:text-white transition-colors">{item.title}</h3>
@@ -79,16 +84,40 @@ const BENTO_ITEMS = [
 </section>
 
 <script>
-  // スクロール検知によるフェードインアニメーション（軽量Vanilla JS）
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('opacity-0', 'translate-y-4', 'scale-95');
-        entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-        observer.unobserve(entry.target);
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  // ⭕️ GSAP ScrollTriggerアニメーション
+  const ctx = gsap.context(() => {
+    // タイトルのアニメーション
+    gsap.to(".service-title", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".service-title",
+        start: "top 80%",
+        toggleActions: "play none none reverse",
       }
     });
-  }, { threshold: 0.1 });
 
-  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    // グリッドアイテムのアニメーション（時間差）
+    gsap.to("#service .grid .scroll-reveal", {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      stagger: 0.2, // 0.2秒ずつずらす
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#service .grid",
+        start: "top 70%",
+        toggleActions: "play none none reverse",
+      }
+    });
+  });
+
+  // コンポーネントがアンマウントされた際のクリーンアップ（Astro 4+）
+  document.addEventListener('astro:before-swap', () => ctx.revert());
 </script>
